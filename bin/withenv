@@ -14,12 +14,23 @@
 
 declare -a env_files
 
+find-file() {
+  name="$1"
+  for f in "$name" "$WITHENV_DIR/$name"; do
+    if [ -f "$f" ]; then
+      echo "$f"
+      return
+    fi
+  done
+  echo "withenv: No such file: $name" >&2
+}
+
 while [ $# -gt 0 ]; do
   arg="$1"; shift
   if [ "$arg" = '--' ]; then
     break
   fi
-  env_files+=("$WITHENV_DIR/$arg")
+  env_files+=($(find-file "$arg"))
 done
 
 sanitize-vars() {

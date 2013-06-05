@@ -26,7 +26,11 @@ withenv()
       for f in ${env_files[@]}; do
         source "$f"
       done
-      eval "$@"
+      cmd=()
+      for word in "${@}"; do
+        cmd+=("'$word'")
+      done
+      eval "${cmd[@]}"
     )
 
   fi

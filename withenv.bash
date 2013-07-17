@@ -26,7 +26,7 @@ withenv()
       for f in ${env_files[@]}; do
         source "$f"
       done
-      eval "$@"
+      "$@"
     )
 
   fi

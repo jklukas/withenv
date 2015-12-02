@@ -1,4 +1,7 @@
-Copyright (c) 2013 Mike Williams <mdub@dogbiscuit.org>
+Copyright (c) 2015 Jeff Klukas <jeff@klukas.net>
+
+Based on original work Copyright (c) 2013 Mike Williams <mdub@dogbiscuit.org>
+See https://github.com/mdub/withenv
 
 Permission is hereby granted, free of charge, to any person obtaining
 a copy of this software and associated documentation files (the

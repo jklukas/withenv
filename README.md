@@ -141,3 +141,17 @@ set `WITHENV_DIR` in your `.bash_profile` or `.zshrc` to point to your
 existing directory.
 You may need to put quotes around some values if they contain characters
 that have special meaning to the shell.
+
+
+## Future enhancements
+
+I'd like to add a concept of a post-hook. It would be a special envfile
+that always gets sourced after the envfiles that are explicitly passed
+to `withenv`. This would allow you to choose dev or prod credentials
+in your `withenv` invocation, but then also set some derived variable
+based on those credentials. It would be useful for the
+`REDSHIFT_COPY_CREDS` example above.
+
+We could probably do a lot better for completion in zsh by using
+zsh-specific completion features. Right now, all the completion is
+written in bash and relies on zsh's bash completion import functionality.

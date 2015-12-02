@@ -35,7 +35,7 @@ export AWS_SECRET_ACCESS_KEY='abcdefghijklmnopqrstuvwzyzabcdefghijklmn'
 Example invocations:
 
 # Basic usage
-withenv aws.sh othercreds.gpg -- aws s3 ls
+withenv aws.sh othercreds.gpg -- aws s3 list-buckets
 
 # Print out the modified environment to the terminal
 withenv aws.sh -- env

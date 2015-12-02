@@ -127,3 +127,15 @@ Or I would often resort to command history rather than retyping a command.
 [mdub/withenv](https://github.com/mdub/withenv), on which this project
 is based, provided some completion pieces
 and the concept of a known directory for envfiles.
+
+*How can I migrate from envcrypt?*
+
+You should be able to use most of your existing envcrypt environment files
+unmodified in `withenv`. Just copy the files into `$HOME/.withenv` or
+set `WITHENV_DIR` in your `.bash_profile` or `.zshrc` to point to your
+existing directory. You'll also need to set `export WITHENV_ALLEXPORT=true`
+in your `.bash_profile` or `.zshrc` since envcrypt files don't export
+variables explicitly.
+
+You may need to put quotes around some values if they contain characters
+that have special meaning to the shell.

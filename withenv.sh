@@ -148,6 +148,8 @@ if [[ -n ${ZSH_VERSION-} ]]; then
     # This is zsh rather than bash
     autoload bashcompinit
     bashcompinit
+    autoload -U compinit
+    compinit
 fi
 
 complete -o default -F _withenv_complete withenv

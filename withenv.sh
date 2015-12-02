@@ -20,16 +20,17 @@ Envfiles should be placed in a directory defined by WITHENV_DIR.
 If WITHENV_DIR is not set, \$HOME/.withenv is assumed. Explicit
 paths to envfiles outside WITHENV_DIR are also recognized.
 
-If WITHENV_ALLEXPORT is set to "true", the allexport shell option will
-be set before sourcing envfiles. Unless this is set, it is necessary
-in your envfiles to explicitly export any variables you wish to be
+Unless the WITHENV_ALLEXPORT exists and is set to "false", the 'allexport'
+shell option will be set before sourcing envfiles. If this is turned off,
+your envfiles must explicitly export any variables you wish to be
 available in the environment when COMMAND is executed.
 
 
 Example envfile (stored as \$HOME/.withenv/aws.sh):
 
-export AWS_ACCESS_KEY_ID='ABCDEFGHIJKLMNOPQRST'
-export AWS_SECRET_ACCESS_KEY='abcdefghijklmnopqrstuvwzyzabcdefghijklmn'
+AWS_ACCESS_KEY_ID='ABCDEFGHIJKLMNOPQRST'
+AWS_SECRET_ACCESS_KEY='abcdefghijklmnopqrstuvwzyzabcdefghijklmn'
+REDSHIFT_COPY_CREDS="aws_access_key_id=\$AWS_ACCESS_KEY_ID;aws_secret_access_key=\$AWS_SECRET_ACCESS_KEY"
 
 
 Example invocations:
@@ -45,6 +46,7 @@ withenv aws.sh -- env SOME_VAR=foo aws s3 list-buckets
 
 # Launch a bash subshell where the modified environment persists
 withenv aws.sh -- bash
+
 EOF
 }
 
@@ -74,7 +76,7 @@ withenv() {
     fi
 
     # Set the 'allexport' option if appropriate.
-    if [ "$WITHENV_ALLEXPORT" = true ]; then
+    if ! [ "$WITHENV_ALLEXPORT" = false ]; then
         set -o allexport
     fi
 
@@ -137,10 +139,10 @@ _withenv_complete()
     # Offer a list of environment files as the reply.
     setopt nullglob 2> /dev/null || shopt -s nullglob
     COMPREPLY=()  # Initialize array.
-    COMPREPLY+=("$cur"*.{sh,bash,zsh,gpg,asc})  # Add envfiles from PWD
+    COMPREPLY+=("$cur"*.{env,sh,bash,zsh,gpg,asc})  # Add envfiles from PWD
     COMPREPLY+=("${WITHENV_DIR=$HOME/.withenv}/$cur"*)  # Add envfiles from WITHENV_DIR
     COMPREPLY=(${COMPREPLY[@]##*/})  # remove directory prefix from each element
-    COMPREPLY=(${COMPREPLY[@]/withenv.sh})  # remove withenv.bash from array
+    COMPREPLY=(${COMPREPLY[@]/withenv.sh})  # remove withenv.sh from array
 
 }
 

@@ -22,13 +22,13 @@ Install it by copying `withenv.sh` from GitHub:
     mkdir -p ~/.withenv
     curl https://raw.githubusercontent.com/jklukas/withenv/master/withenv.sh > ~/.withenv/withenv.sh
 
-Then to make it available, add the following to your `.bash_profile` or `.zshrc`:
+To make it available, add the following to your `.bash_profile` or `.zshrc`:
 
     source $HOME/.withenv/withenv.sh
 
 ## Usage
 
-Here's the output of `withenv -h`:
+Full usage details and examples are given by `withenv --help`:
 
 ```bash
 usage: withenv [envfile ...] -- command [argument ...]
@@ -46,16 +46,17 @@ Envfiles should be placed in a directory defined by WITHENV_DIR.
 If WITHENV_DIR is not set, $HOME/.withenv is assumed. Explicit
 paths to envfiles outside WITHENV_DIR are also recognized.
 
-If WITHENV_ALLEXPORT is set to "true", the allexport shell option will
-be set before sourcing envfiles. Unless this is set, it is necessary
-in your envfiles to explicitly export any variables you wish to be
+Unless the WITHENV_ALLEXPORT exists and is set to "false", the 'allexport'
+shell option will be set before sourcing envfiles. If this is turned off,
+your envfiles must explicitly export any variables you wish to be
 available in the environment when COMMAND is executed.
 
 
 Example envfile (stored as $HOME/.withenv/aws.sh):
 
-export AWS_ACCESS_KEY_ID='ABCDEFGHIJKLMNOPQRST'
-export AWS_SECRET_ACCESS_KEY='abcdefghijklmnopqrstuvwzyzabcdefghijklmn'
+AWS_ACCESS_KEY_ID='ABCDEFGHIJKLMNOPQRST'
+AWS_SECRET_ACCESS_KEY='abcdefghijklmnopqrstuvwzyzabcdefghijklmn'
+REDSHIFT_COPY_CREDS="aws_access_key_id=$AWS_ACCESS_KEY_ID;aws_secret_access_key=$AWS_SECRET_ACCESS_KEY"
 
 
 Example invocations:
@@ -137,9 +138,6 @@ and the concept of a known directory for envfiles.
 You should be able to use most of your existing envcrypt environment files
 unmodified in `withenv`. Just copy the files into `$HOME/.withenv` or
 set `WITHENV_DIR` in your `.bash_profile` or `.zshrc` to point to your
-existing directory. You'll also need to set `export WITHENV_ALLEXPORT=true`
-in your `.bash_profile` or `.zshrc` since envcrypt files don't export
-variables explicitly.
-
+existing directory.
 You may need to put quotes around some values if they contain characters
 that have special meaning to the shell.

@@ -40,6 +40,9 @@ withenv aws.sh othercreds.gpg -- aws s3 list-buckets
 # Print out the modified environment to the terminal
 withenv aws.sh -- env
 
+# Use env to override a previously set variable; env is really useful
+withenv aws.sh -- env SOME_VAR=foo aws s3 list-buckets
+
 # Launch a bash subshell where the modified environment persists
 withenv aws.sh -- bash
 EOF

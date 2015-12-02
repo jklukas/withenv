@@ -6,13 +6,12 @@ or a more user-friendly
 [chpst (8)](http://manpages.ubuntu.com/manpages/hardy/man8/chpst.8.html)
 with support for keeping your environment variables in GPG-encrypted files.
 
-"withenv" runs a shell command in the context of a named environment.
-
 For example:
 
-    $ withenv my-aws-credentials -- aws s3 list-buckets
+    $ withenv aws.sh -- aws s3 list-buckets
 
-Here, "`my-aws-credentials`" is the name of the environment, and "`aws s3 list-buckets`" is the command to run.
+Here, `aws.sh` is an "envfile" defining some environment variables,
+and `aws s3 list-buckets` is the command to run.
 
 ## Installing it
 
@@ -67,14 +66,17 @@ withenv aws.sh othercreds.gpg -- aws s3 list-buckets
 # Print out the modified environment to the terminal
 withenv aws.sh -- env
 
+# Use env to override a previously set variable; env is really useful
+withenv aws.sh -- env SOME_VAR=foo aws s3 list-buckets
+
 # Launch a bash subshell where the modified environment persists
 withenv aws.sh -- bash
 ```
 
 ## Bash completion
 
-`withenv` comes complete with Bash programmable completion support, for no extra cost.
-Partial completion support is also available in Zsh.
+`withenv` comes complete with bash programmable completion support, for no extra cost.
+Partial completion support is also available in zsh.
 
 For example:
 
@@ -109,21 +111,23 @@ you invoke `withenv`.
 
 *How is this different from [envcrypt](https://github.com/whilp/envcrypt)?*
 
-It's very similar, but addresses a few usability issues I had with envcrypt.
+It's similar in many ways, but the implementation is shell script rather
+than Go and the interface is different, aiming to resolve some
+usability issues I had with envcrypt.
 
 First, I wanted more flexibility for envfiles.
 `envcrypt` defines its own restricted file format for environments
 whereas `withenv` expects shell scripts and `source`s them in the shell.
 If you're comfortable with shell scripting, that means you already
-understand how quoting will behave. It also means that you can define
-some variables in terms of other variables already defined.
+understand how quoting will behave in envfiles. It also means that you can define
+some variables in terms of other variables already defined or use some logic.
 You can even have dependent envfiles that build a new variable based on
 values defined in previous envfiles.
 
 Second, I wanted command completion. I found that with `envcrypt`,
 I would often construct a command using shell completion features, then
 return to the beginning of the line to add the `envcrypt envfile` part.
-Or I would often resort to command history rather than retyping a command.
+Or I would resort to command history rather than retyping a command.
 [mdub/withenv](https://github.com/mdub/withenv), on which this project
 is based, provided some completion pieces
 and the concept of a known directory for envfiles.

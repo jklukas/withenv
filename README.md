@@ -15,7 +15,12 @@ and `aws s3 list-buckets` is the command to run.
 
 ## Installing it
 
-`withenv` is implemented using shell functions and supports both bash and zsh.
+`withenv` is implemented using shell functions and supports bash 4.0+ and zsh.
+
+If you're on OS X, note that the `bash` that ships with your system is ancient.
+You'll need to update bash.
+It's recommended that you install [homebrew](http://brew.sh/) and then
+run `brew install bash` to get the latest.
 
 Install it by copying `withenv.sh` from GitHub:
 
